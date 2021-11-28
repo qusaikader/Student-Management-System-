@@ -1,0 +1,197 @@
+#include<stdio.h>
+#include<conio.h>
+#include<malloc.h>
+#include<string.h>
+
+typedef struct Node{
+    char name[20];
+    int rollno;
+    char course[20];
+    int sem;
+    float grade;
+    char phone[12];
+    struct Node *next;
+}node;
+
+node *head;
+
+node *create_record(node *head)
+{
+
+
+
+
+    char nam[20];
+    int roll;
+    char cou[20];
+    int sm;
+    float grad;
+    char num[12];
+
+
+
+
+    node *new_node, *temp;
+    new_node = (node*)malloc(sizeof(node));
+    printf("\nEnter the first name of the student: ");
+    scanf("%s",&nam);
+    strcpy(new_node->name, nam);
+    printf("\nEnter the Roll Number of the student(4 digit number): ");
+    scanf("%d",&roll);
+    new_node->rollno = roll;
+    printf("\nThe course offered are COMPS,IT,MECH,EXTC,CIVIL");
+    printf("\nEnter the Course of the student: ");
+    scanf("%s",&cou);
+    strcpy(new_node->course, cou);
+    printf("\nEnter the Current Semester of the student: ");
+    scanf("%d",&sm);
+    new_node->sem = sm;
+    printf("\nEnter the Current Semester Grade of the student: ");
+    scanf("%f",&grad);
+    new_node->grade= grad;
+    printf("\nEnter the Phone Number of the student: ");
+    scanf("%s",&num);
+    printf("\n\n");
+    strcpy(new_node->phone, num);
+
+    if(head == NULL){
+    new_node ->next = NULL;
+    head = new_node;
+
+    }
+    else
+        {
+            temp = head;
+            while(temp->next!=NULL){
+                temp = temp->next;
+            }
+            temp->next = new_node;
+            new_node->next = NULL;
+        }
+    return head;
+}
+
+
+void search_record(node *head, int val)
+{
+    node *temp;
+    temp = head;
+    int flag = 0;
+    while(temp != NULL){
+            if(temp->rollno == val){
+                printf("\n\t-----Student Information-----\n");
+                printf("\nName of the Student: ");
+                puts(temp->name);
+                printf("\nRoll Number of the Student: %d",temp->rollno);
+                printf("\nCourse of the Student: %s",temp->course);
+                printf("\nCurrent Semester of the Student: %d",temp->sem);
+                printf("\nCGPA of the Student: %.2f",temp->grade);
+                printf("\nContact Number of the Student: %s\n\n",temp->phone);
+                flag = 1;
+                break;
+            }
+
+        temp = temp->next;
+    }
+    if(flag==0){
+        printf("\nThe Student Roll Number doesn't exist\n");
+    }
+}
+
+
+int count_record(node *head)
+{
+    node *temp;
+    temp = head;
+    int cnt;
+    while(temp!=NULL){
+        temp = temp->next;
+        cnt+=1;
+    }
+    return cnt;
+}
+
+
+node *delete_beg(node *head)
+{
+    node *temp;
+    temp =head;
+    head = head->next;
+    free(temp);
+    return head;
+
+}
+
+
+
+
+node *delete_record(node *head,int value)
+{
+    node *temp,*pretemp;
+    temp = head;
+    if(temp->rollno == value)
+        {
+            head = delete_beg(head);
+            printf("\nTotal Numbers of Student Left In Register: %d\n",count_record(head));
+            return head;
+        }
+    else{
+        while(temp->rollno != value){
+            pretemp = temp;
+            temp = temp->next;
+        }
+        pretemp ->next = temp->next;
+        free(temp);
+        printf("\nTotal Numbers of Student Left In Register: %d\n",count_record(head));
+        return head;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main(){
+
+    int option,value;
+    do{
+            printf("\n\t-----KJ SOMAIYA COLLEGE OF ENGINEERING-----\n\t\t       VIDYAVIHAR     \n");
+            printf("1.Add A Record\n2.Search For Student Information\n3.Delete a Student Information\n4.Display the number of Students in Record\n5.EXIT\n");
+            scanf("%d",&option);
+            if(option == 1)
+                {
+
+                    head = create_record(head);
+
+                }
+            else if(option == 2){
+                printf("\nEnter the Roll Number of Student: ");
+                scanf("%d",&value);
+                search_record(head,value);
+            }
+            else if(option==3){
+                printf("\nEnter the Roll Number of Student: ");
+                scanf("%d",&value);
+                head = delete_record(head,value);
+
+            }
+            else if(option == 4){
+                printf("\nStudent Records Book\n");
+                int num = count_record(head);
+                printf("\nTHE TOTAL NUMBER OF STUDENT IN THE REGISTER ARE: %d\n",num);
+
+            }
+
+    }while(option!=5);
+
+    return 0;
+}
