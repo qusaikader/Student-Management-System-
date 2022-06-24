@@ -187,7 +187,7 @@ int main(){
             else if(option == 4){
                 printf("\nStudent Records Book\n");
                 int num = count_record(head);
-                printf("\nTHE TOTAL NUMBER OF STUDENT IN THE REGISTER ARE: %d\n",num);
+                printf("\nTHE NUMBER OF STUDENT IN THE REGISTER ARE: %d\n",num);
 
             }
 
